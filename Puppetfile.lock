@@ -1,0 +1,10 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    puppet-selinux (2.0.0)
+      puppetlabs-stdlib (>= 4.18.0, < 7.0.0)
+    puppetlabs-stdlib (6.0.0)
+
+DEPENDENCIES
+  puppet-selinux (>= 0)
+
