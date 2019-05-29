@@ -1,2 +1,2 @@
-include rest_example::rest_example
+include weather::gunicorn
 

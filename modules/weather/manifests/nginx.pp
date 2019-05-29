@@ -1,4 +1,9 @@
-class nginx::nginx {
+class weather::nginx {
+    package { "nginx":
+        ensure => present,
+        require => Package["epel-release"]
+    }
+
     service { 'nginx.service':
         ensure => running,
         enable => true,
@@ -10,7 +15,7 @@ class nginx::nginx {
         mode => '0644',
         owner => 'root',
         group => 'root',
-        source => 'puppet:///modules/nginx/nginx.conf'
+        source => 'puppet:///modules/weather/nginx/nginx.conf'
     }
 
     selinux::boolean { 'httpd_can_network_connect': }

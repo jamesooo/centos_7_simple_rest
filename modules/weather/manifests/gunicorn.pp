@@ -1,6 +1,12 @@
-class rest_example::rest_example {
-    require base::base
-    include nginx::nginx
+class weather::gunicorn {
+    require weather::python
+    include weather::nginx
+
+    package { "gunicorn":
+        ensure => present,
+        require => Package["python36-pip"],
+        provider => pip3
+    }
 
     package { 'rest_example_jamesooo':
         provider => pip3,
@@ -21,7 +27,7 @@ class rest_example::rest_example {
         mode => '0644',
         owner => 'root',
         group => 'root',
-        source => 'puppet:///modules/rest_example/gunicorn.service',
+        source => 'puppet:///modules/weather/gunicorn/gunicorn.service',
         require => Package['rest_example_jamesooo']
     }
 
@@ -41,9 +47,8 @@ class rest_example::rest_example {
         mode => '0744',
         owner => 'root',
         group => 'root',
-        source => 'puppet:///modules/rest_example/gunicorn.conf',
+        source => 'puppet:///modules/weather/gunicorn/gunicorn.conf',
         require => Package['rest_example_jamesooo']
     }
-
 }
 

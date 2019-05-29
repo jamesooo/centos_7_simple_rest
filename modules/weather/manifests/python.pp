@@ -1,4 +1,4 @@
-class base::base {
+class weather::python {
     package { "epel-release":
         ensure => present,
     }
@@ -11,16 +11,5 @@ class base::base {
     package { "python36":
         ensure => present,
         require => Package["epel-release"]
-    }
-
-    package { "nginx":
-        ensure => present,
-        require => Package["epel-release"]
-    }
-
-    package { "gunicorn":
-        ensure => present,
-        require => Package["python36-pip"],
-        provider => pip3
     }
 }
