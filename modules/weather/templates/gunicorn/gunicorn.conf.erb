@@ -1,5 +1,3 @@
-# Sample Gunicorn configuration file.
-
 #
 # Server socket
 #
@@ -124,14 +122,17 @@ spew = False
 
 daemon = False
 raw_env = [
-    'DJANGO_SECRET_KEY=something',
-    'SPAM=eggs',
+    'api_key=<%= @env["gunicorn"]["weather"]["api_key"] %>',
+    'latitude=<%= @env["gunicorn"]["weather"]["latitude"] %>',
+    'longitude=<%= @env["gunicorn"]["weather"]["longitude"] %>',
+    'db_path=/var/lib/sqlite3/weather.db'
 ]
-pidfile = None
+pidfile = '/run/gunicorn/pid'
 umask = 0
-user = None
-group = None
+user = 'app'
+group = 'app'
 tmp_upload_dir = None
+pythonpath = '/usr/lib64/python36.zip,/usr/lib64/python3.6,/usr/lib64/python3.6/lib-dynload,/usr/local/lib64/python3.6/site-packages,/usr/local/lib/python3.6/site-packages,/usr/lib64/python3.6/site-packages,/usr/lib/python3.6/site-packages,/opt'
 
 #
 #   Logging

@@ -8,9 +8,9 @@ User=app
 Group=app
 RuntimeDirectory=gunicorn
 RuntimeDirectoryMode=0775
-WorkingDirectory=/usr/local/lib/python3.6/site-packages/rest_example-jamesooo
-ExecStart=/usr/local/bin/gunicorn --pid /run/gunicorn/pid   \
-          -c /etc/tmpfiles.d/gunicorn.conf wsgi:app
+WorkingDirectory=/opt/weather-jamesooo/
+ExecStart=/usr/local/bin/gunicorn \
+          -c /etc/gunicorn.conf wsgi:app
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 PrivateTmp=true

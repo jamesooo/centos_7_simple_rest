@@ -1,24 +1,36 @@
-class weather::gunicorn {
+class weather::gunicorn (
+    $env = Hash
+){
     require weather::python
     include weather::nginx
-
+    
     package { "gunicorn":
         ensure => present,
         require => Package["python36-pip"],
         provider => pip3
     }
 
-    package { 'rest_example_jamesooo':
+    package { 'weather-jamesooo':
         provider => pip3,
-        ensure => present
+        ensure => present,
+        install_options => {
+            '--target' => '/opt'
+        }
+    }
+
+    package { 'markupsafe':
+        provider => pip3,
+        ensure => present,
     }
 
     group { 'app':
-        ensure => present
+        ensure => present,
+        gid => 700
     }
 
     user { 'app':
         ensure => present,
+        uid => 700,
         require => Group['app']
     }
 
@@ -28,7 +40,7 @@ class weather::gunicorn {
         owner => 'root',
         group => 'root',
         source => 'puppet:///modules/weather/gunicorn/gunicorn.service',
-        require => Package['rest_example_jamesooo']
+        require => Package['weather-jamesooo']
     }
 
     service { 'gunicorn.service':
@@ -43,12 +55,12 @@ class weather::gunicorn {
     }
 
     file { 'gunicorn.conf':
-        path => '/etc/tmpfiles.d/gunicorn.conf',
+        path => '/etc/gunicorn.conf',
         mode => '0744',
         owner => 'root',
         group => 'root',
-        source => 'puppet:///modules/weather/gunicorn/gunicorn.conf',
-        require => Package['rest_example_jamesooo']
+        content => template('weather/gunicorn/gunicorn.conf.erb'),
+        require => Package['weather-jamesooo']
     }
 }
 
